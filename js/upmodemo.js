@@ -34,14 +34,14 @@ function XHRLoader(s_host, f_callback, other) {
 
 }
 
-function PermissionsCache() {
-	var permissions = new Array();
+function ConnectionsCache() {
+	var connections = new Array();
 	
-	this.getPermissions = 	function(role) {
-		return permissions[role];
+	this.getConnection = function(name) {
+		return connections[name];
 	}
-	this.setPermissions = function (role, newPermissions) {
-		permissions[role] = newPermissions;
+	this.setConnection = function (name, newConnection) {
+		connections[name] = newConnection;
 	}
 }
 

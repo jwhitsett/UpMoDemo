@@ -266,8 +266,28 @@ body {
 #connectionsDiv {
 	height: 340px;
 	margin-top: 8px;
-	overflow: auto;
+	visibility: hidden;
 	width: 600px;
+}
+
+#connections {
+	height: 320px;
+	margin: 0px;
+	overflow: auto;
+	padding: 0px;
+	width: 600px;
+}
+#search {
+	background-image: url("http://storage.conduit.com/images/searchengines/search_icon.gif");
+	background-position: 0 1px;
+	background-repeat: no-repeat;
+	margin-left: 4px;
+	padding-left: 20px;
+	
+}
+
+#searchLabel {
+	margin-left: 60px;	
 }
 
 .connection {

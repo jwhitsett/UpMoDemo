@@ -31,7 +31,15 @@
 							<script type="IN/Login" data-onAuth="onLinkedInAuth"></script>
 						</div>
 						<div id="profile"></div>
-						<div id="connectionsDiv"></div>
+						<div id="connectionsDiv">
+							<div id="connectionsHeader" class="headerDiv title-black">
+								<span id="connectionsheaderText"></span>
+								<label id="searchLabel" for="search" class="body-bold">Search Connections</label>
+								<input id="search" type="text"></input>
+								<button id="search_btn" onclick="searchForConnections()">Search</button>
+							</div>
+							<div id="connections"></div>
+						</div>
 				</div><!--  end of content div -->
 			</div><!-- rightSide -->	
 		</div>
@@ -140,26 +148,22 @@
 	function displayConnections(result) {
 	    if (result && result.values && result.values.length > 0) {
 	    	var connDisplay = document.getElementById("connectionsDiv");
-	    	if (connDisplay) {
-	    		var header = document.createElement("DIV");
+	    	var container = document.getElementById("connections");
+	    	if (connDisplay && container) {
+	    		var header = document.getElementById("connectionsheaderText");
 	    		if (header) {
-	    			header.className = "headerDiv title-black";
 	    			header.appendChild(document.createTextNode("Your " + result.values.length + " Connections"));
-	    			connDisplay.appendChild(header);
-	    		}
-				while (result.values.length) {
-	    			for (var i=0; i < 4; ++i) {
+					while (result.values.length) {
 	    				var connectionObj = result.values.shift();
 			    		if (connectionObj) {
 							var newConn = buildConnection(connectionObj);
 							if (newConn) {
-								connDisplay.appendChild(newConn);
+								container.appendChild(newConn);
 							}
 			    		}
-			    	}
-					var br = document.createElement("BR");
-					if (br) connDisplay.appendChild(br);
+		    		}
 	    		}
+	    		connDisplay.style.visibility = "visible";
 	    	}
 	    }
 	}
@@ -174,6 +178,7 @@
 			var wrapper = document.createElement("DIV");
 			if (wrapper) {
 				wrapper.className = "connection";
+				wrapper.id = connection.firstName + " " + connection.lastName;
 	
 				var pic = document.createElement("IMG");
 				if (pic) {
@@ -194,7 +199,35 @@
 		}
 		return null;
 	}
-	 
+
+	function searchForConnections() {
+		var searchInput = document.getElementById("search");
+		if (searchInput) {
+			var text = searchInput.value;
+			var connectionsContainer = document.getElementById("connections");
+			if (text != undefined && text != "" && text != " ") {
+				if (connectionsContainer) {
+					for (var i=0; i < connectionsContainer.children.length; ++i) {
+						if (connectionsContainer.children[i] && connectionsContainer.children[i].id) {
+							var id = connectionsContainer.children[i].id;
+							if (id && id != "") {
+								if (id.toLowerCase().indexOf(text.toLowerCase()) == -1) {
+									connectionsContainer.children[i].style.display = "none";
+								} else connectionsContainer.children[i].style.display = "inline-block";
+							}
+						}
+					}
+				}
+			} else {
+				for (var i=0; i < connectionsContainer.children.length; ++i) {
+					if (connectionsContainer.children[i] && connectionsContainer.children[i].id) {
+						connectionsContainer.children[i].style.display = "inline-block";
+					}
+				}
+			}
+		}
+	}
+	
 	</script>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.5b1.js"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>
